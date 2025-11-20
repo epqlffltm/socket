@@ -1,11 +1,11 @@
 #include<stdio.h>
-#include<stdlid.h>
+#include<stdlib.h>
 #include<string.h>
 #include<unistd.h>
 #include<arpa/inet.h>
 #include<sys/socket.h>
 
-#define BUR_SIZE 1024
+#define BUF_SIZE 1024
 
 void error_handling(char *message);
 
@@ -15,8 +15,8 @@ int main(int argc, char *argv[])
   char message[BUF_SIZE];
   int str_len, i;
 
-  struct sockaddr_in serv_adt, clnt_adr;
-  socklen_t clnt_adt_sz;
+  struct sockaddr_in serv_adr, clnt_adr;
+  socklen_t clnt_adr_sz;
 
   if(argc!=2)
   {
@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
     exit(1);
   }
 
-  serv_sock=socket(PF_INET, SOCK_STREAM, 0)
+  serv_sock=socket(PF_INET, SOCK_STREAM, 0);
   if(serv_sock==-1)
   error_handling("socket() error");
 
@@ -43,12 +43,12 @@ int main(int argc, char *argv[])
 
   for(int i=0; i<5;i++)
   {
-    clnt_sock=accept(serv_sock, (struct sockaddr*)&clnt_adr, &clnt_adt_sz);
+    clnt_sock=accept(serv_sock, (struct sockaddr*)&clnt_adr, &clnt_adr_sz);
     if(clnt_sock==-1)
     error_handling("accept() error");
     else
     printf("connected client %d \n",i+1);
-    shile((str_len=read(clnt_sock, message,BUF_SIZE))!=0)
+    while((str_len=read(clnt_sock, message,BUF_SIZE))!=0)
     write(clnt_sock,message, str_len);
 
     close(clnt_sock);

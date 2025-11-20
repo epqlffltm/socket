@@ -6,22 +6,24 @@
 #include<sys/socket.h>
 
 #define BUF_SIZE 1024
+#define RLT_SIZE 4
+#define OPSZ 4
 
 void error_handling(char *message);
 
 int main(int argc, char *argv[])
 {
-  char message[BUF_SIZE];
-  int str_len;
+  int sock;
+  char opmsg[BUF_SIZE];
+  int result, opnd_cnt, i;
   struct sockaddr_in serv_adr;
-
   if(argc!=3)
   {
-    printf("Usage : $s <PORT>\n",argv[0]);
+    printf("Usage :%s <IP> <PORT>\n",argv[0]);
     exit(1);
   }
 
-  int sock=socket(PF_INET, SOCK_STREAM,0);
+  sock=socket(PF_INET, SOCK_STREAM,0);
   if(sock==-1)
   error_handling("socket() error");
 
@@ -31,26 +33,30 @@ int main(int argc, char *argv[])
   serv_adr.sin_port=htons(atoi(argv[2]));
 
   if(connect(sock, (struct sockaddr*)&serv_adr, sizeof(serv_adr))==-1)
-  error_handling("connect() error!");
+  error_handling("connect()error!");
   else
-  puts("connected...........");
+  puts("connected.........");
 
-  while(1)
+  fputs("operand count: ",stdout);
+  scanf("%d", &opnd_cnt);
+  opmsg[0]=(char)opnd_cnt;
+
+  for(int i=0; i<opnd_cnt;i++)
   {
-    fputs("Input message(Q to quit):",stdout);
-    fgets(message,BUF_SIZE,stdin);
-
-    if(!strcmp(message,"q\n")||!strcmp(message,"Q\n"))
-    break;
-
-    write(sock, message, strlen(message));
-    str_len=read(sock, message, BUF_SIZE-1);
-    message[str_len]=0;
-    printf("message from server: %s",message);
+    printf("operand %d :", i+1);
+    scanf("%d", (int*)&opmsg[i*OPSZ+1]);
   }
-  close(sock);
+  fgetc(stdin);
+  fputs("operator: ",stdout);
+  scanf("%c", &opmsg[opnd_cnt*OPSZ+1]);
+  write(sock, opmsg, opnd_cnt*OPSZ+2);
+  read(sock,&result, RLT_SIZE);
 
-  return 0;
+  printf("operation result: %d \n",result);
+  
+  close(sock);
+  
+  return 0;[]
 }
 
 void error_handling(char *message)
