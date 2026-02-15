@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
 
   for(int i = 0; i < 5; i++)
   {
-    clnt_sock = accept(serv_sock, (struct spcladdr*)&clnt_adr, &clnt_adr_sz);
+    clnt_sock = accept(serv_sock, (struct sockaddr*)&clnt_adr, &clnt_adr_sz);
     if(clnt_sock == -1)
     {
       error_handling("accept");
