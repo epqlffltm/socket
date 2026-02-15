@@ -39,7 +39,7 @@ int main(int argc, char* argv[])
   }
 
   str_len = read(sock, message, sizeof(message)-1);
-  message[str_len] = '\0'
+  message[str_len] = '\0';
   if(str_len == -1)
   {
     error_handling("read error");

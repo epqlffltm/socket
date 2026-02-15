@@ -10,7 +10,7 @@ hello server
 #include<sys/socket.h>
 #include "error_handling.h"
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
   int serv_sock = -1, clnt_sock = -1;
 
