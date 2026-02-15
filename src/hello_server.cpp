@@ -4,7 +4,7 @@ hello server
 */
 #include<iostream>
 #include<cstdlib>
-#include<cstring.h>
+#include<cstring>
 #include<unistd.h>
 #include<arpa/inet.h>
 #include<sys/socket.h>
