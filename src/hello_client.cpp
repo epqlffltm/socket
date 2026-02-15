@@ -8,8 +8,7 @@ hello client
 #include<unistd.h>
 #include<arpa/inet.h>
 #include<sys/socket.h>
-
-void error_handling(const char *message);
+#include "error_handling.h"
 
 int main(int argc, char* argv[])
 {
@@ -51,10 +50,4 @@ int main(int argc, char* argv[])
   close(sock);
 
   return 0;
-}
-
-void error_handling(const char *message)
-{
-  std::cerr << message <<std::endl;
-  exit(1);
 }

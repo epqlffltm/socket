@@ -8,8 +8,7 @@ hello server
 #include<unistd.h>
 #include<arpa/inet.h>
 #include<sys/socket.h>
-
-void error_handling(const char *message);
+#include "error_handling.h"
 
 int main(int argc, char *argv[])
 {
@@ -22,7 +21,7 @@ int main(int argc, char *argv[])
 
   if(argc != 2)
   {
-    std::cerr << "Usage: " << argv[0] << " <port>" << std::endl;
+    std::cerr << "usage: " << argv[0] << " <port>" << std::endl;
     exit(1);
   }
 
@@ -63,10 +62,4 @@ int main(int argc, char *argv[])
   close(serv_sock);
 
   return 0;
-}
-
-void error_handling(const char *message)
-{
-  std::cerr << message << " error" << strerror(errno) << std::endl;
-  exit(1);
 }
