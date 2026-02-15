@@ -4,7 +4,7 @@
 */
 
 #include<iostream>
-#include<cstdlib.h>
+#include<cstdlib>
 #include<cstring>
 #include<vector>
 #include<unistd.h>
