@@ -9,7 +9,7 @@ TARGET = $(SRCG:.cpp=)
 
 all: $(TARGET)
 %: %.cpp
-	$(cc) $(CFLAGS) -o $@ $<
+	$(CC) $(CFLAGS) -o $@ $<
 
 clean:
 	rm -f $(TARGET)

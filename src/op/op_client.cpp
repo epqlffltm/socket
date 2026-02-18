@@ -11,14 +11,14 @@ op 클라이언트 개선판
 #include<vector>
 #include<arpa/inet.h>
 #include<sys/socket.h>
-#include<../error_handling.h>
+#include"../error_handling.h"
 
-int main(int argc, char argv *[])
+int main(int argc, char *argv [])
 {
   const int buf_size = 1024;
   std::vector<char>message(buf_size);
-  std::string input_mag;
-  struct socklen_t serv_adr;
+  std::string input_msg;
+  struct sockaddr_in serv_adr;
 
   if(argc != 3)
   {
