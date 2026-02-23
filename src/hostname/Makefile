@@ -2,7 +2,7 @@
 
 CC = g++
 
-CFLAGS = -wall -g
+CFLAGS = -Wall -g
 
 SRCG = $(wildcard *.cpp)
 
