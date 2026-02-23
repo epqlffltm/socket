@@ -6,7 +6,7 @@ CFLAGS = -wall -g
 
 SRCG = $(wildcard *.cpp)
 
-TARGET = $(SRG:.cpp=)
+TARGET = $(SRCG:.cpp=)
 
 all: $(TARGET)
 %: %.cpp
