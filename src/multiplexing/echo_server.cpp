@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
 
   if((serv_sock = socket(PF_INET, SOCK_STREAM,0)) == -1)
   error_handling("socket");
-  
+
   memset(&serv_adr,0,sizeof(serv_adr));
   //std::vector<char>buf(1024,0);
   serv_adr.sin_family = AF_INET;
@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
   {
     cpy_reads = reads;
     timeout.tv_sec = 5;
-    timeout.tv_user = 5000;
+    timeout.tv_usec = 5000;
 
     if((fd_num = select(fd_max+1, &cpy_reads,0,0,&timeout)) == -1)
     break;
@@ -82,7 +82,7 @@ int main(int argc, char *argv[])
         }
         else
         {
-          str_len = read(i,message,buf_size);
+          str_len = read(i,message.data(),buf_size);
           if(str_len == 0)
           {
             FD_CLR(i, &reads);
@@ -91,7 +91,7 @@ int main(int argc, char *argv[])
           }
           else
           {
-            write(i,message,str_len);
+            write(i,message.data(),str_len);
           }
         }
       }
