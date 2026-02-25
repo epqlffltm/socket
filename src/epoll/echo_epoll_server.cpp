@@ -10,6 +10,7 @@ epoll기반 에코 서버
 #include<vector>
 #include<unistd.h>
 #include<arpa/inet.h>
+#include<sys/epoll.h>
 #include"../error_handling.h"
 
 int main(int argc, char *argv[])
