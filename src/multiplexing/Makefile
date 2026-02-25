@@ -3,9 +3,9 @@
 CC = g++
 CFLAGS = -Wall -g
 
-SRCG = $(wildcard *.cpp=)
+SRCG = $(wildcard *.cpp)
 
-TARGET = $(SRCG:.app=)
+TARGET = $(SRCG:.cpp=)
 
 all: $(TARGET)
 %: %.cpp
