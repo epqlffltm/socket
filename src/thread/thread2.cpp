@@ -7,7 +7,7 @@ thread2
 #include<thread>
 #include<vector>
 
-void th(int start, int end, int* num);
+void th(const std::vector<int>& data, int start, int end, int* num);
 
 int main(int argc, char *argv[])
 {
@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
   return 0;
 }
 
-void th(int start, int end, int* num)
+void th(const std::vector<int>& data, int start, int end, int* num)
 {
   for(int i = start; i < end; i++)
     {
