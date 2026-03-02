@@ -13,18 +13,19 @@ void work(int *result, std::mutex *m);
 int main(void)
 {
   int count = 0;
-  std::vector<int>v;
+  std::vector<std::thread>v;
   std::mutex m;
 
   for(int i = 0; i<10; i++)
   {
-    v.push_back(std::tread(work,&count,&m));
+    v.push_back(std::thread(work,&count,&m));
   }
 
   for(int i = 0; i <10; i++)
   {
     v[i].join();
   }
+  std::cout << "count : " << count << std::endl;
 }
 
 void work(int *result, std::mutex *m)
