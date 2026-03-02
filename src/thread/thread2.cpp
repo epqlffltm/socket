@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
   {
     int start = i * chunk;
     int end = (i + 1) * chunk;
-    threads.push_back(std::thread(th, start, end, &result[i]));
+    threads.push_back(std::thread(th, std::ref(data), start, end, &result[i]));
   }
 
   for(int i = 0; i < 4; i++)
