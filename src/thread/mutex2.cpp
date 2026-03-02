@@ -34,7 +34,7 @@ void work(int *reault, std::mutex *m)
 {
   for(int i = 0; i<10;i++)
   {
-    std::lock_guard<std::mutex>lock(m);
+    std::lock_guard<std::mutex>lock(*m);
     reault += i;
   }
 }
