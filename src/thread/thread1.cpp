@@ -27,6 +27,6 @@ void th(int id)
   for(int i = 0; i < 10; i++)
   {
     sleep(1);
-    std::cout<< "therad : " << id << i << std::endl;
+    std::cout<< "therad : " << id << " : " << i << std::endl;
   }
 }
