@@ -35,7 +35,7 @@ void work1(std::mutex *m1, std::mutex *m2, int *n)
     std::cout << "work1 -> m1 : " << i << std::endl; 
     std::lock_guard<std::mutex>lock2(*m2);
     std::cout << "work1 -> m2 : " << i << std::endl; 
-    *n ++;
+    (*n) ++;
   }
 }
 
@@ -54,7 +54,7 @@ void work2(std::mutex *m1, std::mutex *m2, int *n)
       }
       std::lock_guard<std::mutex>lock1(*m1);
       std::cout << "work2 -> m1 : " << i << std::endl; 
-      *n ++;
+      (*n) ++;
       break;
     }
   }
