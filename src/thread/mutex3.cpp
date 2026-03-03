@@ -31,11 +31,20 @@ void work1(std::mutex *m1, std::mutex *m2, int *n)
 {
   for(int i = 0; i<10; i++)
   {
-    std::lock_guard<std::mutex>lock1(*m1);
-    std::cout << "work1 -> m1 : " << i << std::endl; 
-    std::lock_guard<std::mutex>lock2(*m2);
-    std::cout << "work1 -> m2 : " << i << std::endl; 
-    (*n) ++;
+    while(true)
+    {
+      std::unique_lock<std::mutex>lock1(*m1);
+      std::cout << "work1 -> m1 : " << i << std::endl; 
+      if(!m1->try_lock())
+      {
+        lock1.unlock();
+        continue;
+      }
+      std::lock_guard<std::mutex>lock2(*m2);
+      std::cout << "work1 -> m2 : " << i << std::endl; 
+      (*n) ++;
+      break;
+    }
   }
 }
 
