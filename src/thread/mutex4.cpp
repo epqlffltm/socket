@@ -11,26 +11,26 @@
 #include<mutex>
 #include<chrono>
 
-void producer(std::queue<std::string> *dawnloaded_paged, std::mutex *m, int index);
-void consumer(std::queue<std::string>* dawnloaded_paged, std::mutex *m, int index);
+void producer(std::queue<std::string> *downloaded_paged, std::mutex *m, int index);
+void consumer(std::queue<std::string>* downloaded_paged, std::mutex *m, int index);
 
 
 int main(void)
 {
-  std::queue<std::string>dawnloaded_paged;
+  std::queue<std::string>downloaded_paged;
   std::mutex m;
 
   std::vector<std::thread>producers;
   for(int i = 0; i< 5; i++)
   {
-    producers.push_back(std::thread(producer,&dawnloaded_paged, &m, i + 1));
+    producers.push_back(std::thread(producer,&downloaded_paged, &m, i + 1));
   }
 
   int num_processed = 0;
   std::vector<std::thread> consumers;
   for (int i = 0; i < 3; i++) 
   {
-    consumers.push_back(std::thread(consumer, &dawnloaded_paged, &m, &num_processed));
+    consumers.push_back(std::thread(consumer, &downloaded_paged, &m, &num_processed));
   }
 
   for (int i = 0; i < 5; i++) 
@@ -43,7 +43,7 @@ int main(void)
   }
 }
 
-void producer(std::queue<std::string>* dawnloaded_paged, std::mutex* m, int index)
+void producer(std::queue<std::string>* downloaded_paged, std::mutex* m, int index)
 {
   for (int i = 0; i < 5; i++) 
   {
@@ -54,19 +54,19 @@ void producer(std::queue<std::string>* dawnloaded_paged, std::mutex* m, int inde
 
     // data 는 쓰레드 사이에서 공유되므로 critical section 에 넣어야 한다.
     m->lock();
-    dawnloaded_paged->push(content);
+    downloaded_paged->push(content);
     m->unlock();
   }
 }
 
-void consumer(std::queue<std::string>* dawnloaded_paged, std::mutex* m, int* num_processed) 
+void consumer(std::queue<std::string>* downloaded_paged, std::mutex* m, int* num_processed) 
 {
   // 전체 처리하는 페이지 개수가 5 * 5 = 25 개.
   while (*num_processed < 25) 
   {
     m->lock();
     // 만일 현재 다운로드한 페이지가 없다면 다시 대기.
-    if (dawnloaded_paged->empty()) 
+    if (downloaded_paged->empty()) 
     {
       m->unlock();  // (Quiz) 여기서 unlock 을 안한다면 어떻게 될까요?
 
@@ -76,8 +76,8 @@ void consumer(std::queue<std::string>* dawnloaded_paged, std::mutex* m, int* num
     }
 
     // 맨 앞의 페이지를 읽고 대기 목록에서 제거한다.
-    std::string content = dawnloaded_paged->front();
-    dawnloaded_paged->pop();
+    std::string content = downloaded_paged->front();
+    downloaded_paged->pop();
 
     (*num_processed)++;
     m->unlock();
