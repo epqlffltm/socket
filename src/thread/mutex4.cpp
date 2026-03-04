@@ -12,7 +12,7 @@
 #include<chrono>
 
 void producer(std::queue<std::string> *downloaded_paged, std::mutex *m, int index);
-void consumer(std::queue<std::string>* downloaded_paged, std::mutex *m, int index);
+void consumer(std::queue<std::string>* downloaded_pages, std::mutex* m,int* num_processed);
 
 
 int main(void)
@@ -32,6 +32,7 @@ int main(void)
   {
     consumers.push_back(std::thread(consumer, &downloaded_paged, &m, &num_processed));
   }
+  
 
   for (int i = 0; i < 5; i++) 
   {
