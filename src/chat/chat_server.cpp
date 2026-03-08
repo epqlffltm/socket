@@ -64,10 +64,10 @@ int main(int argc, char *argv[])
     setsockopt(serv_sock, SOL_SOCKET, SO_REUSEADDR, &opt,sizeof(opt));
 
 
-    if(bind(serv_sock.get(),(sockaddr*)&serv_adr,sizeof(serv_adr)) == -1)
+    if(bind(serv_sock,(sockaddr*)&serv_adr,sizeof(serv_adr)) == -1)
     throw std::runtime_error("bind error");
 
-    if(listen(serv_sock.get(),5) == -1)
+    if(listen(serv_sock,5) == -1)
     throw std::runtime_error("listen error");
 
     while(true)
@@ -90,7 +90,7 @@ int main(int argc, char *argv[])
       //std::thread_detach(t_id);
       std::cout << "connected client IP: " << inet_ntoa(clnt_adr.sin_addr) << std::endl;
     }
-read
+
     close(serv_sock);
   }
   catch(const std::exception& e)
