@@ -29,7 +29,7 @@ void handle_clnt(int clnt_sock);
 void send_msg(char *msg, int len);
 //void error_handling(const char *message);
 
-int main(int argc, int *argv[])
+int main(int argc, char *argv[])
 {
   //const int buf_size 100;// 수신 버퍼 크기
   //const max_clnt 256;
@@ -61,7 +61,7 @@ int main(int argc, int *argv[])
     serv_adr.sin_port = htons(atoi(argv[1]));
 
     int opt = 1;
-    setsockopt(serv_sock.get(), SOL_SOCKET, SO_REUSEADDR, &opt,sizeof(opt));
+    setsockopt(serv_sock, SOL_SOCKET, SO_REUSEADDR, &opt,sizeof(opt));
 
 
     if(bind(serv_sock.get(),(sockaddr*)&serv_adr,sizeof(serv_adr)) == -1)
@@ -78,7 +78,8 @@ int main(int argc, int *argv[])
       throw std::runtime_error("accrpt error");
 
       std::lock_guard<std::mutex>lock(mutx);
-      clnt_socks[clnt_cnt++] = clnt_sock;
+      clnt_socks.push_back(clnt_sock);
+      clnt_cnt++;
 
       //thread생성후 detacj
       std::thread t(handle_clnt, clnt_sock);
@@ -89,7 +90,7 @@ int main(int argc, int *argv[])
       //std::thread_detach(t_id);
       std::cout << "connected client IP: " << inet_ntoa(clnt_adr.sin_addr) << std::endl;
     }
-
+read
     close(serv_sock);
   }
   catch(const std::exception& e)
@@ -102,8 +103,8 @@ int main(int argc, int *argv[])
 
 void handle_clnt(int clnt_sock)
 {
-  //char msg[buf_size];c 스타일
-  std::string msg;//c++ 스타일
+  char msg[buf_size];//c 스타일
+  //std::string msg;//c++ 스타일
   int str_len = 0;
 
   while((str_len = read(clnt_sock, msg, sizeof(msg))) != 0)
@@ -115,7 +116,7 @@ void handle_clnt(int clnt_sock)
     if(clnt_sock == clnt_socks[i])
     {
       while(i++ < clnt_cnt -1)
-      clnt_socks = clnt_socks[i + 1];
+      clnt_socks[i] = clnt_socks[i + 1];
       break;
     }
   }
