@@ -7,15 +7,15 @@ select server
 #include<vector>
 #include<unistd.h>
 #include<sys/time.h>
-#include<sys/seelecr.h>
+#include<sys/select.h>
 
-int main(int argc, char *argv[])
+int main([[maybe_unused]]int argc, [[maybe_unused]]char *argv[])
 {
   const int kBufSize = 30;
 
   fd_set reads, temps;
   int result, str_len;
-  std::vector <char> buf (buf_size + 1);//+1은 널 문자(\0)를 위한 공간
+  std::vector <char> buf (kBufSize + 1);//+1은 널 문자(\0)를 위한 공간
   struct timeval timeout;
 
   FD_ZERO(&reads);
@@ -38,12 +38,13 @@ int main(int argc, char *argv[])
 
     if(result == -1)
     {
-      std::cout << "select() error" << std::endl;
+      std::cerr << "select() error" << std::endl;
       break;
     }
     else if(result == 0)
     {
       std::cout << "time-out!" << std::endl;
+      break;
     }
     else
     {
